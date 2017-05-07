@@ -23,6 +23,8 @@
     navigator.serviceWorker
     navigator.storage
     navigator.userAgent
+    // found in paper
+    navigator.maxTouchPoints
 
     // Non-standard:
     navigator.buildID
@@ -78,6 +80,43 @@ var audioCtx = new AudioContext();
 var testRTC = new RTCPeerConnection()
 testRTC.onicecandidate
 // onicegatheringstatechange
-alert('klaar')
 
 // WebVR API  - NOT
+
+//  Screen
+screen.availHeight
+screen.availLeft
+screen.availTop
+screen.availWidth
+screen.colorDepth
+screen.height
+screen.orientation
+screen.pixelDepth
+screen.width
+
+
+CanvasRenderingContext2D.getImageData
+CanvasRenderingContext2D.fillText
+CanvasRenderingContext2D.strokeText
+WebGLRenderingContext.getImageData
+WebGLRenderingContext.fillText
+WebGLRenderingContext.strokeText
+HTMLCanvasElement.toDataURL
+window.TouchEvent
+
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
+// HTMLelements
+var elmnt = document.getElementById("demo")
+elmnt.offsetHeight
+elmnt.offsetWidth
+elmnt.offsetTop
+elmnt.offsetParent
+elmnt.style
+elmnt.tabIndex
+elmnt.dataset
+elmnt.getBoundingClientRect
+elmnt.lang
+elmnt.draggable
+elmnt.hidden
+elmnt.itemType
+elmnt.itemValue
