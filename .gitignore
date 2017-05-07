@@ -1,6 +1,8 @@
 # firefox directories
 firefox-bin/
 
+# virtual enviroment
+venv/
 # VIM tmp files
 *~
 .*.sw*
