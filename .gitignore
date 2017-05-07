@@ -1,6 +1,10 @@
 # firefox directories
 firefox-bin/
 
+# results directory
+results/
+
+
 # virtual enviroment
 venv/
 # VIM tmp files
