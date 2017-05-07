@@ -2,7 +2,7 @@ from automation import TaskManager, CommandSequence
 
 # The list of sites that we wish to crawl
 NUM_BROWSERS = 1
-sites = ['http://www.independent.co.uk/']
+sites = ['file:///home/mees/study/thesis/OpenWPM/jsapi.html']
 
 # Loads the manager preference and 3 copies of the default browser dictionaries
 manager_params, browser_params = TaskManager.load_default_params(NUM_BROWSERS)
@@ -20,8 +20,8 @@ browser_params[0]['cp_instrument'] = False
 
 
 # Update TaskManager configuration (use this for crawl-wide settings)
-manager_params['data_directory'] = '~/Desktop/'
-manager_params['log_directory'] = '~/Desktop/'
+manager_params['data_directory'] = '~/study/thesis/OpenWPM/results'
+manager_params['log_directory'] = '~/study/thesis/OpenWPM/results'
 
 # Instantiates the measurement platform
 # Commands time out by default after 60 seconds
