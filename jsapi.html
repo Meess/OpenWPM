@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<script type="text/javascript" src="jsapi.js"></script>
+</head>
+<body>
+<h1> Web/JavaScript API calls test</h1>
+<div id="demo"></div>
+
+<script>
+var txt = "";
+txt += "<p>Browser CodeName: " + navigator.appCodeName + "</p>";
+txt += "<p>Browser Name: " + navigator.appName + "</p>";
+txt += "<p>Browser Version: " + navigator.appVersion + "</p>";
+txt += "<p>Cookies Enabled: " + navigator.cookieEnabled + "</p>";
+txt += "<p>Browser Language: " + navigator.language + "</p>";
+txt += "<p>Browser Online: " + navigator.onLine + "</p>";
+txt += "<p>Platform: " + navigator.platform + "</p>";
+txt += "<p>User-agent header: " + navigator.userAgent + "</p>";
+
+document.getElementById("demo").innerHTML = txt;
+</script>
+
+<video width="320" height="240" controls>
+    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video> 
+</body>
+</html>
