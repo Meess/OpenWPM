@@ -624,16 +624,20 @@ function getPageScript() {
     // Access to canvas
     instrumentObject(window.HTMLCanvasElement.prototype,"HTMLCanvasElement");
 
-    var excludedProperties = [ "quadraticCurveTo", "lineTo", "transform",
-                               "globalAlpha", "moveTo", "drawImage",
-                               "setTransform", "clearRect", "closePath",
-                               "beginPath", "canvas", "translate" ];
-    instrumentObject(
-        window.CanvasRenderingContext2D.prototype,
-        "CanvasRenderingContext2D",
-        {'excludedProperties': excludedProperties}
-    );
+    // var excludedProperties = [ "quadraticCurveTo", "lineTo", "transform",
+    //                            "globalAlpha", "moveTo", "drawImage",
+    //                            "setTransform", "clearRect", "closePath",
+    //                            "beginPath", "canvas", "translate" ];
+    
+    // instrumentObject(
+    //     window.CanvasRenderingContext2D.prototype,
+    //     "CanvasRenderingContext2D",
+    //     {'excludedProperties': excludedProperties}
+    // );
 
+    instrumentObject(
+        window.CanvasRenderingContext2D.prototype,"CanvasRenderingContext2D"
+    );
     // Access to webRTC
     instrumentObject(window.RTCPeerConnection.prototype,"RTCPeerConnection");
 
@@ -648,6 +652,10 @@ function getPageScript() {
     // Access to Battery API
     instrumentObject(window.BatteryManager.prototype, "BatteryManager");
 
+    // Access to XMLHttpRequest
+    instrumentObject(window.XMLHttpRequest.prototype,"XMLHttpRequest");
+
+  
     console.log("Successfully started all instrumentation.");
 
   } + "());";
