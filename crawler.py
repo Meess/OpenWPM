@@ -1,8 +1,8 @@
 from automation import TaskManager, CommandSequence
-
+from seeds import alexa500
 # The list of sites that we wish to crawl
 NUM_BROWSERS = 1
-sites = ['http://9280d8b3.ngrok.io/', 'http://google.nl']
+sites = alexa500.domains
 
 # Loads the manager preference and 3 copies of the default browser dictionaries
 manager_params, browser_params = TaskManager.load_default_params(NUM_BROWSERS)
@@ -12,7 +12,7 @@ manager_params, browser_params = TaskManager.load_default_params(NUM_BROWSERS)
 #     browser_params[i]['http_instrument'] = False # Record HTTP Requests and Responses
 #     browser_params[i]['headless'] = True
 #     browser_params[i]['disable_flash'] = True #Enable flash for all three browsers
-browser_params[0]['headless'] = False #Launch only browser 0 not headless
+browser_params[0]['headless'] = True #Launch only browser 0 not headless
 browser_params[0]['js_instrument'] = True
 browser_params[0]['save_javascript'] = False
 browser_params[0]['cookie_instrument'] = True
