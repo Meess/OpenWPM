@@ -6,7 +6,7 @@
     navigator.appCodeName
     navigator.appName
     navigator.appVersion
-    navigator.battery
+    navigator.getBattery
     navigator.connection
     navigator.geolocation
     navigator.hardwareConcurrency
