@@ -9,36 +9,42 @@
 <canvas id="myCanvas"></canvas>
 
 
-
-
-
 <!-- https://developer.mozilla.org/nl/docs/Web/API/CanvasRenderingContext2D  -->
-<script type="text/javascript">
-var canvas = document.getElementById('myCanvas');
-var ctx = canvas.getContext('2d');
-ctx.fillStyle = 'rgb(200,0,0)';
-ctx.fillRect(10, 10, 55, 50);
-</script>
-
-<script>
-var txt = "";
-txt += "<p>Browser CodeName: " + navigator.appCodeName + "</p>";
-txt += "<p>Browser Name: " + navigator.appName + "</p>";
-txt += "<p>Browser Version: " + navigator.appVersion + "</p>";
-txt += "<p>Cookies Enabled: " + navigator.cookieEnabled + "</p>";
-txt += "<p>Browser Language: " + navigator.language + "</p>";
-txt += "<p>Browser Online: " + navigator.onLine + "</p>";
-txt += "<p>Platform: " + navigator.platform + "</p>";
-txt += "<p>User-agent header: " + navigator.userAgent + "</p>";
-
-document.getElementById("demo").innerHTML = txt;
-</script>
 
 <video width="320" height="240" controls>
     <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video> 
 
-<script type="text/javascript" src="jsapi.js"></script>
+<!-- <script type="text/javascript" src="apicalls/jsapi.js"></script> -->
+<script type="text/javascript" src="static/apicalls/screen.js"></script>
+
+
+<script type="text/javascript" src="static/apicalls/navigator.js"></script>
+
+
+<script type="text/javascript" src="static/apicalls/window.js"></script>
+
+
+<pre id="result"></pre>
+<script type="text/javascript" src="static/apicalls/audiocontext.js"></script>
+
+
+<h1> Battery Fingerprinting Test Page</h1>
+<p>Charging? </p><pre id="charging"></pre> <br />
+<p>Charging Level: </p><pre id="level"></pre> <br />
+<p>Charging Time: </p><pre id="chargingTime"></pre> <br />
+<p>Discharging Time: </p><pre id="dischargingTime"></pre> <br />
+<script type="text/javascript" src="static/apicalls/battery.js"></script>
+
+
+<canvas id="myCanvas"></canvas>
+<pre id="canvasDataURL"></pre>
+<script type="text/javascript" src="static/apicalls/canvas.js"></script>
+
+
+<script type="text/javascript" src="static/apicalls/xmlhttprequest.js"></script>
+
+
 </body>
 </html>

@@ -5,9 +5,9 @@ app = Flask(__name__)
 def hello():
     return current_app.send_static_file('jsapi.html')
 
-@app.route("/jsapi.js")
+@app.route("/static/apicalls/<file>")
 def js():
-	return current_app.send_static_file('jsapi.js')
+	return current_app.send_static_file('/static/apicalls/' + file)
 
 if __name__ == "__main__":
     app.run()
