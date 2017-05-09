@@ -560,13 +560,18 @@ function getPageScript() {
      */
     // TODO: user should be able to choose what to instrument
 
+    // Catch all properties, enumerable and non-enumerable. from:
+    // http://stackoverflow.com/questions/37229784/why-cant-i-get-properties-count-of-navigator-object-in-javascript
+    function getAllProps(obj, props = []){
+      if(Object.getPrototypeOf(obj) == null){ return props; }
+      return getAllProps(Object.getPrototypeOf(obj), props.concat(Object.getOwnPropertyNames(obj)));
+    }
+
     // Access to navigator properties
     var navigatorProperties = [ "appCodeName", "appName", "appVersion",
                                 "buildID", "cookieEnabled", "doNotTrack",
                                 "geolocation", "language", "languages",
-                                "onLine", "oscpu", "platform", "product",
-                                "productSub", "userAgent", "vendorSub",
-                                "vendor", "getBattery" ];
+                                "onLine", "oscpu"];
     navigatorProperties.forEach(function(property) {
       instrumentObjectProperty(window.navigator, "window.navigator", property);
     });
