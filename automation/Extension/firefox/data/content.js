@@ -568,10 +568,11 @@ function getPageScript() {
     }
 
     // Access to navigator properties
-    var navigatorProperties = [ "appCodeName", "appName", "appVersion",
-                                "buildID", "cookieEnabled", "doNotTrack",
-                                "geolocation", "language", "languages",
-                                "onLine", "oscpu"];
+    // var navigatorProperties = [ "appCodeName", "appName", "appVersion",
+    //                             "buildID", "cookieEnabled", "doNotTrack",
+    //                             "geolocation", "language", "languages",
+    //                             "onLine", "oscpu"];
+    var navigatorProperties = getAllProps(navigator);
     navigatorProperties.forEach(function(property) {
       instrumentObjectProperty(window.navigator, "window.navigator", property);
     });
@@ -579,7 +580,9 @@ function getPageScript() {
     // Access to screen properties
     //instrumentObject(window.screen, "window.screen");
     // TODO: why do we instrument only two screen properties
-    var screenProperties =  [ "pixelDepth", "colorDepth" ];
+    // var screenProperties =  [ "pixelDepth", "colorDepth" ];
+
+    var screenProperties =  getAllProps(screen);
     screenProperties.forEach(function(property) {
       instrumentObjectProperty(window.screen, "window.screen", property);
     });
