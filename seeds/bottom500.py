@@ -1,5 +1,4 @@
 domains = [
-'http://neme-s.org',
 'http://manticapps.com',
 'http://dengivsem.com',
 'http://eaton.com.br',
@@ -500,4 +499,5 @@ domains = [
 'http://ridestore.de',
 'http://vythirivillage.com',
 'http://franktalkaboutattraction.com',
-'http://poshgui.com']
+'http://poshgui.com'
+]
