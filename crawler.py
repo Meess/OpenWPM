@@ -1,9 +1,12 @@
 from automation import TaskManager, CommandSequence
-from seeds import alexa500
+from seeds import alexa500, bottom500
+
 # The list of sites that we wish to crawl
-NUM_BROWSERS = 5
+NUM_BROWSERS = 4
 sites = alexa500.domains
 # sites = ['https://www.facebook.com/']
+# sites = ['http://279cd9d8.ngrok.io']
+# sites = bottom500.domains
 
 # Loads the manager preference and 3 copies of the default browser dictionaries
 manager_params, browser_params = TaskManager.load_default_params(NUM_BROWSERS)
@@ -13,7 +16,7 @@ for i in xrange(NUM_BROWSERS):
 	browser_params[i]['headless'] = True #Launch only browser 0 not headless
 	browser_params[i]['js_instrument'] = True
 	browser_params[i]['save_javascript'] = False
-	browser_params[i]['cookie_instrument'] = True
+	browser_params[i]['cookie_instrument'] = False
 	browser_params[i]['cp_instrument'] = False
 
 
