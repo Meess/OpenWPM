@@ -2,8 +2,10 @@ import sqlite3
 from operator import itemgetter
 
 # conn = sqlite3.connect('../testdb/jsapi_crawl.sqlite')
-# conn = sqlite3.connect('../../b500/crawl-data.sqlite')
-conn = sqlite3.connect('../results/crawl-data.sqlite')
+conn = sqlite3.connect('../../b500/bcrawl-data.sqlite')
+# conn = sqlite3.connect('../../b500/tcrawl-data.sqlite')
+# conn = sqlite3.connect('../results/crawl-data.sqlite')
+
 c =  conn.cursor()
 script_info = {}
 site_info = {}
@@ -25,16 +27,15 @@ num_calls = c.execute(diff_calls_q).fetchone()[0]
 calls_info['num'] = num_calls
 
 
-occurence = "SELECT symbol, COUNT(*) AS `num` FROM javascript GROUP BY symbol"
+occurence = "SELECT symbol, COUNT(*) AS `num` FROM javascript GROUP BY symbol ORDER BY COUNT(*) ASC"
 occurences = c.execute(occurence)
 occ_list = occurences.fetchall()
 
-
-for each in sorted(occ_list, key=lambda (k,val): val):
-    print each
+print occ_list
 print "Sites visited: ", site_info['num']
 print "Scripts encouterd: ", script_info['num']
 print "API calls: ", calls_info['num']
+print len(occ_list)
 # for row in c.execute(query):
 #     print(row)
 
