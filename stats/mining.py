@@ -4,15 +4,62 @@ from pymining import itemmining
 import itertools
 import time
 import matplotlib.pyplot as plt
+from pylab import *
 
 # conn = sqlite3.connect('../testdb/jsapi_crawl.sqlite')
-conn = sqlite3.connect('../../b500/bcrawl-data.sqlite')
+# conn = sqlite3.connect('../../b500/bcrawl-data.sqlite')
 # conn = sqlite3.connect('../../b500/tcrawl-data.sqlite')
-# conn = sqlite3.connect('../results/crawl-data.sqlite')
+conn = sqlite3.connect('../results/crawl-data.sqlite')
 
 c =  conn.cursor()
 
-q = "SELECT script_url, GROUP_CONCAT(DISTINCT symbol) FROM javascript GROUP BY script_url"
+
+q = """
+    SELECT DISTINCT CASE http_responses.location 
+                WHEN '' 
+                THEN site_visits.site_url
+                ELSE http_responses.location
+                END AS url
+    FROM site_visits
+    LEFT JOIN http_responses 
+    ON http_responses.visit_id = site_visits.visit_id 
+    LIMIT 1
+
+    """
+        # WHERE symbol LIKE '%Canvas%'f
+
+urls = c.execute(q).fetchall()
+for each in urls:
+    print each
+
+exit()
+
+a = [script[1] in script[0] for script in script_urls]
+print sum(a)
+
+exit()
+q = """
+    SELECT javascript.script_url AS script_url, 
+           site_visits.site_url AS site_url,
+           GROUP_CONCAT(DISTINCT javascript.symbol) AS symbol
+    FROM javascript 
+    INNER JOIN site_visits 
+    ON javascript.visit_id = site_visits.visit_id 
+
+        GROUP BY script_url;
+    """
+        # WHERE symbol LIKE '%Canvas%'f
+
+script_urls = c.execute(q).fetchall()
+print script_urls
+# a = [script[1] in script[0] for script in script_urls]
+# print sum(a)
+
+# for each in script_urls:
+#     print each
+
+exit()
+q = "SELECT script_url, GROUP_CONCAT(DISTINCT symbol) FROM javascript WHERE symbol LIKE '%Canvas%' WHERE GROUP BY script_url"
 
 
 script_urls = c.execute(q).fetchall()
@@ -31,21 +78,46 @@ for url in script_urls:
 diff_scripts_q = "SELECT COUNT(DISTINCT script_url) FROM javascript"
 num_scripts = float(c.execute(diff_scripts_q).fetchone()[0])
 
-occurence_q = "SELECT symbol, COUNT(*) AS `num` FROM javascript GROUP BY symbol ORDER BY COUNT(*) ASC"
+occurence_q = "SELECT symbol, COUNT(*) AS `num` FROM javascript WHERE symbol LIKE '%Canvas%' GROUP BY symbol ORDER BY COUNT(*) ASC"
 occurences = c.execute(occurence_q)
 
 data = [[in_script[each[0]]/num_scripts, each[0]] for each in occurences]
 
-
 perc, names = zip(*data)
-ax = plt.subplot(111)
 bins = range(0, len(perc))
-ax.bar(bins, perc)
-# ax.set_xticks(bins)
-# ax.set_xticklabels(names,rotation=45)
 
-# ax.xlabel('Occurence low to high')
-# ax.ylabel('%% of script found')
-plt.show()
+figure(1)
+barh(bins, perc, align='center')
+yticks(bins, names)
+show()
+
+
+
+
+
+# perc, names = zip(*data)
+# ax = plt.subplot(111)
+# bins = range(0, len(perc))
+# ax.bar(bins, perc)
+# # ax.set_xticks(bins)
+# # ax.set_xticklabels(names,rotation=45)
+
+# # ax.xlabel('Occurence low to high')
+# # ax.ylabel('%% of script found')
+# plt.show()
 
 conn.close()
+
+# q = "SELECT javascript.script_url, site_visits.site_url ,GROUP_CONCAT(DISTINCT javascript.symbol) FROM javascript INNER JOIN site_visits on javascript.visit_id = site_visits.visit_id WHERE javascript.symbol LIKE '%Canvas%' GROUP BY javascript.script_url;"
+
+# q = """
+#     SELECT CASE http_responses.location 
+#                 WHEN ''
+#                 THEN site_visits.site_url
+#                 ELSE http_responses.location
+#                 END AS url
+#     FROM site_visits
+#     LEFT JOIN http_responses 
+#     ON http_responses.visit_id = site_visits.visit_id 
+
+#     """
