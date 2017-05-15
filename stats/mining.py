@@ -9,57 +9,61 @@ from pylab import *
 # conn = sqlite3.connect('../testdb/jsapi_crawl.sqlite')
 # conn = sqlite3.connect('../../b500/bcrawl-data.sqlite')
 # conn = sqlite3.connect('../../b500/tcrawl-data.sqlite')
+# conn = sqlite3.connect('../../b500/testcrawl-data.sqlite')
 conn = sqlite3.connect('../results/crawl-data.sqlite')
+print "Created connection with database..."
 
 c =  conn.cursor()
 
-
 q = """
-    SELECT DISTINCT CASE http_responses.location 
-                WHEN '' 
-                THEN site_visits.site_url
-                ELSE http_responses.location
-                END AS url
-    FROM site_visits
-    LEFT JOIN http_responses 
-    ON http_responses.visit_id = site_visits.visit_id 
-    LIMIT 1
+    SELECT url, location
+    FROM http_responses
+    WHERE location != ''
 
     """
-        # WHERE symbol LIKE '%Canvas%'f
 
-urls = c.execute(q).fetchall()
-for each in urls:
-    print each
+# Get all urls which are redirected
+redirect_urls = c.execute(q).fetchall()
+print "Collected redirected urls..."
 
-exit()
 
-a = [script[1] in script[0] for script in script_urls]
-print sum(a)
+# Replace original visit URL domain with redirected domain. But
+# only for the visted domain.
+for url, redirect in redirect_urls:
+    b = c.execute("UPDATE site_visits SET site_url = ? WHERE site_url = ?",(redirect, url))
+    print redirect
 
-exit()
+conn.commit()
+print "Replaced all original URLs with redirected URLs..."
+
+# exit()
+# Query all symbols and group them by script and domain
 q = """
     SELECT javascript.script_url AS script_url, 
            site_visits.site_url AS site_url,
            GROUP_CONCAT(DISTINCT javascript.symbol) AS symbol
     FROM javascript 
     INNER JOIN site_visits 
-    ON javascript.visit_id = site_visits.visit_id 
-
-        GROUP BY script_url;
+    ON javascript.visit_id = site_visits.visit_id
+    GROUP BY script_url;
     """
         # WHERE symbol LIKE '%Canvas%'f
 
 script_urls = c.execute(q).fetchall()
 print script_urls
-# a = [script[1] in script[0] for script in script_urls]
-# print sum(a)
+a = [script[1] in script[0] for script in script_urls]
+print sum(a)
 
 # for each in script_urls:
 #     print each
 
 exit()
-q = "SELECT script_url, GROUP_CONCAT(DISTINCT symbol) FROM javascript WHERE symbol LIKE '%Canvas%' WHERE GROUP BY script_url"
+q = """SELECT script_url, 
+              GROUP_CONCAT(DISTINCT symbol) 
+       FROM javascript 
+       WHERE symbol 
+       LIKE '%Canvas%' 
+       GROUP BY script_url"""
 
 
 script_urls = c.execute(q).fetchall()
