@@ -5,8 +5,8 @@ import sqlite3
 # conn = sqlite3.connect('../../b500/tcrawl-data.sqlite')
 # conn = sqlite3.connect('../../b500/testcrawl-data.sqlite')
 # conn = sqlite3.connect('../results/crawl-data.sqlite')
-# conn = sqlite3.connect('../bresults/crawl-data.sqlite')
-conn = sqlite3.connect('../tresults/crawl-data.sqlite')
+conn = sqlite3.connect('../bresults/crawl-data.sqlite')
+# conn = sqlite3.connect('../tresults/crawl-data.sqlite')
 print "Created connection with database..."
 
 c =  conn.cursor()
