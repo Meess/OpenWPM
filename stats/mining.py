@@ -6,6 +6,7 @@ import time
 import matplotlib.pyplot as plt
 from pylab import *
 from urlparse import urlparse
+from itertools import compress
 
 
 replace_redirect = False
@@ -14,7 +15,7 @@ replace_redirect = False
 # conn = sqlite3.connect('../../b500/tcrawl-data.sqlite')
 # conn = sqlite3.connect('../../b500/testcrawl-data.sqlite')
 # conn = sqlite3.connect('../results/crawl-data.sqlite')
-# conn = sqlite3.connect('../bresults/crawl-data.sqlite')
+conn = sqlite3.connect('../bresults/crawl-data.sqlite')
 # conn = sqlite3.connect('../tresults/crawl-data.sqlite')
 print "Created connection with database..."
 
@@ -51,8 +52,12 @@ if (replace_redirect):
             # going to write complicated traceback to fix them.
             redirect_urls = c.execute("DELETE FROM http_responses WHERE location = ?", (redirect,))
 
+    # get all visited site_url
     urls = c.execute("""SELECT site_url 
                         FROM site_visits""").fetchall()
+
+    # For each visited URL clean it from URI and replace
+    # old visited URL
     for url in urls:
         url = url[0]
         parsed_uri = urlparse(url)
@@ -61,10 +66,11 @@ if (replace_redirect):
             c.execute("UPDATE site_visits SET site_url = ? WHERE site_url = ?",(stripped_url, url))
             print "Stripped:", url, "-TO->", stripped_url
 
+    # Push changes back to database
     conn.commit()
     print "Replaced all original URLs with redirected URLs..."
 
-# Query all symbols and group them by script and domain
+# Query all symbols and group them by script
 q = """
     SELECT javascript.script_url AS script_url,
            site_visits.site_url AS site_url
@@ -75,16 +81,17 @@ q = """
     """
 
 script_urls = c.execute(q).fetchall()
-# print script_urls
-a = [script[1] in script[0] for script in script_urls]
-print "1st party: ", sum(a)
-print "3rd party: ", len(a) - sum(a)
-print "All: ", len(script_urls)
 
-# for each in script_urls:
-#     print each
+first_scripts = [script[1] in script[0] for script in script_urls]
+third_scripts = [not i for i in party_scripts]
+first_p_scripts = list(compress(script_urls, party_p_scripts))
+third_p_scripts = list(compress(script_urls, third_p_scripts))
 
-exit()
+# Show some stats
+print "1st party scripts: ", sum(party_scripts)
+print "3rd party scripts: ", len(party_scripts) - sum(party_scripts)
+print "All scripts: ", len(script_urls)
+
 q = """SELECT script_url, 
               GROUP_CONCAT(DISTINCT symbol) 
        FROM javascript 
@@ -106,10 +113,18 @@ for url in script_urls:
         except:
             print 'No KeyError, something went wrong'
 
-diff_scripts_q = "SELECT COUNT(DISTINCT script_url) FROM javascript"
+diff_scripts_q = """SELECT COUNT(DISTINCT script_url) 
+                    FROM javascript"""
+
 num_scripts = float(c.execute(diff_scripts_q).fetchone()[0])
 
-occurence_q = "SELECT symbol, COUNT(*) AS `num` FROM javascript WHERE symbol LIKE '%Canvas%' GROUP BY symbol ORDER BY COUNT(*) ASC"
+occurence_q = """SELECT symbol, COUNT(*) AS `num` 
+                 FROM javascript 
+                 WHERE symbol 
+                 LIKE '%Canvas%' 
+                 GROUP BY symbol 
+                 ORDER BY COUNT(*) ASC"""
+
 occurences = c.execute(occurence_q)
 
 data = [[in_script[each[0]]/num_scripts, each[0]] for each in occurences]
@@ -120,6 +135,8 @@ bins = range(0, len(perc))
 figure(1)
 barh(bins, perc, align='center')
 yticks(bins, names)
+
+figure(2)
 show()
 
 
