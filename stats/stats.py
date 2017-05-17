@@ -8,7 +8,7 @@ from pylab import *
 from urlparse import urlparse
 from itertools import compress
 
-replace_redirect = False
+
 # conn = sqlite3.connect('../testdb/jsapi_crawl.sqlite')
 # conn = sqlite3.connect('../../b500/bcrawl-data.sqlite')
 # conn = sqlite3.connect('../../b500/tcrawl-data.sqlite')
